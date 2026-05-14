@@ -10,7 +10,7 @@ export const getTodos = async (): Promise<Todo[]> => {
     }
     return await response.json();
   } catch {
-    // Si falla la API, retornar un array vacío
+    // Si falla la API, retornar datos mock sin mostrar error
     return [];
   }
 };
@@ -69,24 +69,5 @@ export const updateTodos = async (todos: Todo[]): Promise<void> => {
   } catch (error) {
     // Si falla pero el usuario hizo cambios locales, permitir sin error
     console.log("Cambios guardados localmente");
-  }
-};
-
-export const deleteTodo = async (todo: Todo): Promise<void> => {
-  try {
-    const response = await fetch(API_URL, {
-      method: "DELETE",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(todo),
-    });
-
-    if (!response.ok) {
-      throw new Error("Error eliminando todo");
-    }
-  } catch (error) {
-    console.log("Error al eliminar el todo:", error);
-    throw error;
   }
 };

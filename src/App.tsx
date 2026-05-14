@@ -1,12 +1,10 @@
-import React from "react";
 import { useState, useEffect } from "react";
-import logo from "./logo.svg";
 import "./App.css";
 import { Header } from "./Components/Header";
 import { ToDoList } from "./Components/ToDoList";
 import { SaveTodoModal } from "./Components/SaveTodoModal";
 import { Todo } from "./Types/todo";
-import { getTodos, updateTodos, deleteTodo } from "./Services/todoService";
+import { getTodos, updateTodos } from "./Services/todoService";
 
 function App() {
   const [todos, setTodos] = useState<Todo[]>([]);
@@ -27,19 +25,8 @@ function App() {
     setTodos([...todos, newTodo]);
   };
 
-  const handleDeleteTodo = async (id: number) => {
-    try {
-      setUpdateMessage(null);
-      const todoToDelete = todos.find((todo) => todo.id === id);
-      if (!todoToDelete) throw new Error("Todo no encontrado");
-      await deleteTodo(todoToDelete);
-      setTodos(todos.filter((todo) => todo.id !== id));
-      setUpdateMessage("✓ Todo eliminado correctamente");
-      setTimeout(() => setUpdateMessage(null), 3000);
-    } catch (error) {
-      setUpdateMessage("Error al eliminar el todo");
-      setTimeout(() => setUpdateMessage(null), 3000);
-    }
+  const handleDeleteTodo = (id: number) => {
+    setTodos(todos.filter((todo) => todo.id !== id));
   };
 
   const handleUpdateTodos = async () => {
@@ -66,6 +53,13 @@ function App() {
         <div className="d-flex justify-content-between align-items-center mb-3">
           <h3>Todos</h3>
           <div className="d-flex gap-2">
+            <button
+              className="btn btn-primary"
+              onClick={handleUpdateTodos}
+              disabled={isUpdating}
+            >
+              {isUpdating ? "Actualizando..." : "🔄 Actualizar"}
+            </button>
             <button
               className="btn btn-success"
               onClick={() => setShowSaveModal(true)}
