@@ -33,6 +33,9 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Copiar configuración personalizada de nginx
 COPY nginx.conf /etc/nginx/conf.d/default.conf
 
+# Definimos la variable de entorno para React
+ENV REACT_APP_API_IP="http://backend:7181"
+
 # Exponer puerto
 EXPOSE 80
 

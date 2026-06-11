@@ -1,6 +1,8 @@
 import { Todo } from "../Types/todo";
 
-const API_URL = "http://localhost:7180/api/Todo";
+const API_IP = process.env.REACT_APP_API_URL || "http://172.27.121.97:7180";
+
+const API_URL = `${API_IP}/api/Todo`;
 
 export const getTodos = async (): Promise<Todo[]> => {
   try {
